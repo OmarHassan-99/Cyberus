@@ -1,7 +1,6 @@
-def connect_to_database(name='database.db'):
+def DBconnect(DB = "database.db"):
     import sqlite3
-    return sqlite3.connect(name, check_same_thread=False)
-
+    return sqlite3.connect(DB, check_same_thread=False)
 
 def DBcreate(connection):
     cursor = connection.cursor()
@@ -16,13 +15,13 @@ def DBcreate(connection):
 
 def add_users(connection, username, password):
     cursor = connection.cursor()
-    query = '''INSERT INTO users (username, password) VALUES (? , ?)
+    query = '''INSERT OR IGNORE INTO users (username, password) VALUES (? , ?)
     '''
     cursor.execute(query,(username, password))
     connection.commit()
 
-def get_users(connection, username, password):
+def get_users(connection, username):
     cursor = connection.cursor()
-    query = f'''SELECT * FROM users WHERE username = '{username}' AND password = '{password}'
+    query = f'''SELECT * FROM users WHERE username = '{username}'
     '''
     cursor.execute(query)
